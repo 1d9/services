@@ -1,0 +1,26 @@
+# Javascript Node CircleCI 2.0 configuration file
+# Check https://circleci.com/docs/2.0/language-javascript/ for more details
+version: 2
+jobs:
+  build:
+    shell: /bin/sh -elo pipefail
+    docker:
+      - image: 1d9tech/builder:latest
+    steps:
+      - checkout:
+          path: ~/project
+      - run:
+          name: Create Terraform RC with Token
+          command: echo "credentials \"app.terraform.io\" { token = \"$TF_TOKEN\" }" > ~/.terraformrc
+      - run:
+          name: Install plugins
+          command: terraform init
+      - run:
+          name: Plan Infra changes
+          command: terraform plan -out services.tfplan
+      - store_artifacts:
+          path: services.tfplan
+      - run:
+          name: Apply planned changes
+          command: terraform apply services.tfplan
+      
