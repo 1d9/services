@@ -18,7 +18,7 @@ const zipPackage = async (packageName) => {
 const buildDockerrun = async (tag) => {
   const dockerrun = {
     AWSEBDockerrunVersion: '1',
-    Image: { "Name": `1d9/andy:${tag}` },
+    Image: { "Name": `1d9tech/andy:${tag}` },
     Ports: [
       { "ContainerPort": 8080 }
     ],
