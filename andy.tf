@@ -32,7 +32,7 @@ data "aws_route53_zone" "prod_domain" {
 
 
 resource "aws_route53_record" "www" {
-  zone_id = "${aws_route53_zone.prod_domain.zone_id}"
+  zone_id = "${data.aws_route53_zone.prod_domain.zone_id}"
   name    = "andy.1d9.tech"
   type    = "CNAME"
   ttl     = "300"
