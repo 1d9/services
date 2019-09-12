@@ -26,6 +26,20 @@ resource "aws_elastic_beanstalk_environment" "prod" {
   }
 }
 
+data "aws_route53_zone" "prod_domain" {
+  name         = "1d9.tech."
+}
+
+
+resource "aws_route53_record" "www" {
+  zone_id = "${aws_route53_zone.prod_domain.zone_id}"
+  name    = "andy.1d9.tech"
+  type    = "CNAME"
+  ttl     = "300"
+  records = ["${aws_elastic_beanstalk_environment.prod.cname}"]
+}
+
+
 output "andy-origin" {
   value = "${aws_elastic_beanstalk_environment.prod.cname}"
 }
